@@ -1,0 +1,20 @@
+{
+    "digMiss": [
+        "This spot was a bust, huh? I'm sure there's treasure around here somewhere. Once you've rested up, try another place, or maybe another time of day. Maybe it's here and the tides are hiding it; maybe it's just somewhere else. Maybe both! Many hands make light work, you know."
+    ],
+    "digHitPublic": [
+        "Thanks for the help! As promised, here's a Pair of Pants for you. Tell the rest of the crew! Since this hoard of treasure was fully excavated by some of your fellow crew members, there's no need for the others to come at any specific time, as long as they come to the right place! There's Pairs of Pants for everyone that lends a hand. It'll probably take until Sunday to carry all of this back."
+    ],
+    "digHitHidden": [
+        "You've done it! That's quite a haul you found down there. As promised, here's a Pair of Pants for you, but I'm going to need a lot of help carrying all of this gold back to our trove.\n\nIf we could excavate this whole hoard, there would be no need for the others to come at any specific time. They would just need to know the right place! If you're up for that, make sure you and at least two other crew members have dug on the same day, in the right place, at the right time! You can do that right now if you have the help you need, and you can always come back later this week if you can't find anybody else who can help right now."
+    ],
+    "digHitUncover": [
+        "You've done it! That's quite a haul you found down there. As promised, here's a Pair of Pants for you, and with three of you here to help, we can finish fully excavating this site.\n\nTell the rest of the crew! Now that you've excavated this hoard of treasure, there's no need for the others to come at any specific time, as long as they come to the right place! There's Pairs of Pants for everyone that lends a hand. It'll probably take until Sunday to carry all of this back."
+    ],
+    "digCooldown": [
+        "You've already dug today! Get some rest and try again tomorrow! I'll have work for you again at 20:00 EST."
+    ],
+    "digCooldownWeek": [
+        "I've already paid you for your work this week! Break in that Pair of Pants I gave you and leave some for the rest of your fellow crew members. I'll have more work for you next Sunday!"
+    ]
+}

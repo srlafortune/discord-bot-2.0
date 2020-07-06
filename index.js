@@ -1,9 +1,15 @@
 const fs = require('fs')
 const Discord = require('discord.js')
-const { prefix, token } = require('./config.json')
+const AWS = require('aws-sdk')
+
+require('dotenv').config()
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
+
+const docClient = new AWS.DynamoDB.DocumentClient({ region: 'us-east-2' })
+
+const prefix = process.env.PREFIX
 
 const commandFiles = fs
     .readdirSync('./commands')
@@ -76,11 +82,11 @@ client.on('message', (message) => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount)
 
     try {
-        command.execute(message, args)
+        command.execute(message, args, docClient)
     } catch (error) {
         console.error(error)
         message.reply('there was an error trying to execute that command!')
     }
 })
 
-client.login(token)
+client.login()
