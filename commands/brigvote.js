@@ -24,8 +24,6 @@ module.exports = {
         // everyone has @everyone role so this size should be greater than 1 if they were assigned a role
         const hasRole = message.member.roles.cache.size > 1
 
-        message.channel.send(`You wanted to kick: ${taggedUser.username}`)
-
         // can vote if a vote has started
         // and user hasn't voted yet
         // and vote period hasn't passed yet
@@ -51,14 +49,14 @@ module.exports = {
             const result = await dbClient.update(params).promise()
             console.log(result)
 
-            if (Object.keys(result.Attributes.brigVotes).length > 5) {
+            if (Object.keys(result.Attributes.brigVotes).length > 4) {
                 if (
                     Object.values(result.Attributes.brigVotes).some((vote) => {
                         return vote.hasRole
                     })
                 ) {
                     message.channel
-                        .send(`5/5 votes.\nThe crew has voted in favor of throwing @targetforbrigging in the brig.\nFor details, check the #brig channel.
+                        .send(`5/5 votes.\nThe crew has voted in favor of throwing ${taggedUser} in the brig.\nFor details, check the #brig channel.
                     `)
 
                     const role = message.guild.roles.cache.find(
@@ -71,16 +69,15 @@ module.exports = {
                     const channel = message.client.channels.cache.get(
                         process.env.BRIG_ID
                     )
-
-                    // send message to the brig
-                    channel.send(
-                        `The crew has come to a vote and determined that action is required.\nAs a result, ${member} has been thrown in the brig.\nThey await moderation by @Xandy.\n\nRight now, they haven't been banned from this server. This channel is a holding cell.\nWhile confined here, they'll be unable to interact with all channels. They can only read this channel.\n\nUsually, they'll simply be banned (if they've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.\n\nMove along folks, nothing to see here, get back above decks!\nYour captain will explain the situation here once it has been resolved.`
-                    )
-
-                    // message Xander what happened
                     const admin = message.client.users.cache.get(
                         '179337195012882433'
                     )
+                    // send message to the brig
+                    channel.send(
+                        `The crew has come to a vote and determined that action is required.\nAs a result, ${member} has been thrown in the brig.\nThey await moderation by ${admin}.\n\nRight now, they haven't been banned from this server. This channel is a holding cell.\nWhile confined here, they'll be unable to interact with all channels. They can only read this channel.\n\nUsually, they'll simply be banned (if they've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.\n\nMove along folks, nothing to see here, get back above decks!\nYour captain will explain the situation here once it has been resolved.`
+                    )
+
+                    // message Xander what happened
                     admin.send(`They joined the server at ${member.joinedAt}`)
                     admin.send(
                         `Their most recent message: ${member.lastMessage.url}`
@@ -92,7 +89,7 @@ module.exports = {
                     )
                 } else {
                     message.channel.send(
-                        `5/5 votes.\nThe crew needs the authorization of another member with a role on this server to brig @targetforbrigging for their misconduct. A qualified crew member can vote !aye to finalize this motion.`
+                        `5/5 votes.\nThe crew needs the authorization of another member with a role on this server to brig ${taggedUser} for their misconduct. A qualified crew member can vote !aye to finalize this motion.`
                     )
                 }
             } else {
