@@ -50,13 +50,18 @@ module.exports = {
         try {
             const result = await dbClient.update(params).promise()
             console.log(result)
-            if (Object.keys(result.Attributes.brigVotes).length > 3) {
+
+            if (Object.keys(result.Attributes.brigVotes).length > 5) {
                 if (
                     Object.values(result.Attributes.brigVotes).some((vote) => {
                         return vote.hasRole
                     })
                 ) {
-                    message.channel.send('TO THE BRIGGGGG')
+                    message.channel.send(`
+                        5/5 votes.
+                        The crew has voted in favor of throwing @targetforbrigging in the brig.
+                        For details, check the #brig channel.
+                    `)
 
                     const role = message.guild.roles.cache.find(
                         (role) => role.name === 'Landlubber'
@@ -85,8 +90,11 @@ module.exports = {
                     `)
 
                     // message Xander what happened
-                    channel.send(`They joined the server at ${member.joinedAt}`)
-                    channel.send(
+                    const admin = message.client.users.cache.get(
+                        '179337195012882433'
+                    )
+                    admin.send(`They joined the server at ${member.joinedAt}`)
+                    admin.send(
                         `Their most recent message: ${member.lastMessage.url}`
                     )
 
@@ -104,9 +112,14 @@ module.exports = {
                     )
                 } else {
                     message.channel.send(
-                        'You need someone with the role to vote for the user to be kicked'
+                        `5/5 votes.
+                        The crew needs the authorization of another member with a role on this server to brig @targetforbrigging for their misconduct. A qualified crew member can vote !aye to finalize this motion.`
                     )
                 }
+            } else {
+                message.channel.send(`
+                    ${Object.keys(result.Attributes.brigVotes).length}/5 votes
+                `)
             }
 
             console.log(result)
