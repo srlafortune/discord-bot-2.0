@@ -1,7 +1,7 @@
 const moment = require('moment')
 
 module.exports = {
-    name: 'brigvote',
+    name: 'aye',
     description: 'put em in the brig',
     guildOnly: true,
     async execute(message, args, dbClient) {
@@ -12,9 +12,12 @@ module.exports = {
         }
 
         // get the user who is going to be put in the brig
+        const taggedMember = message.mentions.members.first()
         const taggedUser = message.mentions.users.first()
 
-        if (taggedUser.roles.cache.some((role) => role.name === 'landLubber')) {
+        if (
+            taggedMember.roles.cache.some((role) => role.name === 'landLubber')
+        ) {
             return message.reply('tagged user is already in the brig')
         }
 
@@ -61,11 +64,27 @@ module.exports = {
                     const member = message.mentions.members.first()
                     member.roles.add(role)
 
-                    // message the brig the recap
+                    // get the brig
                     const channel = message.client.channels.cache.get(
                         process.env.BRIG_ID
                     )
-                    channel.send(`${member} is now in the brig`)
+
+                    // send message to the brig
+                    channel.send(`
+                        The crew has come to a vote and determined that action is required. 
+                        As a result, ${member} has been thrown in the brig.
+                        They await moderation by @Xandy.
+                        
+                        Right now, they haven't been banned from this server. This channel is a holding cell.
+                        While confined here, they'll be unable to interact with all channels. They can only read this channel.
+                        
+                        Usually, they'll simply be banned (if they've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.
+                        
+                        Move along folks, nothing to see here, get back above decks!
+                        Your captain will explain the situation here once it has been resolved.
+                    `)
+
+                    // message Xander what happened
                     channel.send(`They joined the server at ${member.joinedAt}`)
                     channel.send(
                         `Their most recent message: ${member.lastMessage.url}`
@@ -73,7 +92,15 @@ module.exports = {
 
                     // message the user what is going on
                     member.send(
-                        'Hello you are now in the brig. This system is cool'
+                        `The crew of The Clothesline has come to a vote and determined that action is required. 
+                        As a result, you has been thrown in the brig and await moderation by Xandy.
+                        
+                        Right now, you haven't been banned from this server. The brig channel is a holding cell.
+                        While confined there, you'll be unable to interact with all channels. You can only read the brig channel.
+                        
+                        Usually, you'll simply be banned (if you've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.
+                        
+                        Where appropriate, your captain will send you a message to conclude these proceedings.`
                     )
                 } else {
                     message.channel.send(
