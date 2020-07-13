@@ -54,11 +54,7 @@ module.exports = {
 
             // message the channel what is going on
             message.channel.send(
-                `${message.member}
-                has proposed that
-                ${taggedUser}
-                be thrown in the brig for their misconduct.
-                All in favor, say !aye to vote.`
+                `${message.member}\nhas proposed that\n${taggedUser}\nbe thrown in the brig for their misconduct.\nAll in favor, say !aye to vote.`
             )
         } catch (err) {
             console.error(err)

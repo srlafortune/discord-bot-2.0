@@ -57,10 +57,8 @@ module.exports = {
                         return vote.hasRole
                     })
                 ) {
-                    message.channel.send(`
-                        5/5 votes.
-                        The crew has voted in favor of throwing @targetforbrigging in the brig.
-                        For details, check the #brig channel.
+                    message.channel
+                        .send(`5/5 votes.\nThe crew has voted in favor of throwing @targetforbrigging in the brig.\nFor details, check the #brig channel.
                     `)
 
                     const role = message.guild.roles.cache.find(
@@ -75,19 +73,9 @@ module.exports = {
                     )
 
                     // send message to the brig
-                    channel.send(`
-                        The crew has come to a vote and determined that action is required. 
-                        As a result, ${member} has been thrown in the brig.
-                        They await moderation by @Xandy.
-                        
-                        Right now, they haven't been banned from this server. This channel is a holding cell.
-                        While confined here, they'll be unable to interact with all channels. They can only read this channel.
-                        
-                        Usually, they'll simply be banned (if they've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.
-                        
-                        Move along folks, nothing to see here, get back above decks!
-                        Your captain will explain the situation here once it has been resolved.
-                    `)
+                    channel.send(
+                        `The crew has come to a vote and determined that action is required.\nAs a result, ${member} has been thrown in the brig.\nThey await moderation by @Xandy.\n\nRight now, they haven't been banned from this server. This channel is a holding cell.\nWhile confined here, they'll be unable to interact with all channels. They can only read this channel.\n\nUsually, they'll simply be banned (if they've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.\n\nMove along folks, nothing to see here, get back above decks!\nYour captain will explain the situation here once it has been resolved.`
+                    )
 
                     // message Xander what happened
                     const admin = message.client.users.cache.get(
@@ -100,20 +88,11 @@ module.exports = {
 
                     // message the user what is going on
                     member.send(
-                        `The crew of The Clothesline has come to a vote and determined that action is required. 
-                        As a result, you has been thrown in the brig and await moderation by Xandy.
-                        
-                        Right now, you haven't been banned from this server. The brig channel is a holding cell.
-                        While confined there, you'll be unable to interact with all channels. You can only read the brig channel.
-                        
-                        Usually, you'll simply be banned (if you've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.
-                        
-                        Where appropriate, your captain will send you a message to conclude these proceedings.`
+                        `The crew of The Clothesline has come to a vote and determined that action is required.\nAs a result, you has been thrown in the brig and await moderation by Xandy.\n\nRight now, you haven't been banned from this server. The brig channel is a holding cell.\nWhile confined there, you'll be unable to interact with all channels. You can only read the brig channel.\n\nUsually, you'll simply be banned (if you've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.\n\nWhere appropriate, your captain will send you a message to conclude these proceedings.`
                     )
                 } else {
                     message.channel.send(
-                        `5/5 votes.
-                        The crew needs the authorization of another member with a role on this server to brig @targetforbrigging for their misconduct. A qualified crew member can vote !aye to finalize this motion.`
+                        `5/5 votes.\nThe crew needs the authorization of another member with a role on this server to brig @targetforbrigging for their misconduct. A qualified crew member can vote !aye to finalize this motion.`
                     )
                 }
             } else {
@@ -128,7 +107,7 @@ module.exports = {
             message.channel.send('Error updating')
             if (err.code === 'ConditionalCheckFailedException') {
                 message.channel.send(
-                    'Brig vote either doesnt exist or expired or you alreayd voted'
+                    'Brig vote either doesnt exist or expired or you already voted'
                 )
             }
         }
