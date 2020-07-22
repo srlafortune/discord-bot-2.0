@@ -1,5 +1,6 @@
 language: node_js
 install: skip
+script: 'true'
 deploy:
     provider: elasticbeanstalk
     access_key_id: <encrypted access_key_id>
