@@ -1,5 +1,4 @@
 language: node_js
-install: skip
 script: 'true'
 deploy:
     provider: elasticbeanstalk
