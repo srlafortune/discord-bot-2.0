@@ -16,7 +16,7 @@ module.exports = {
         const taggedUser = message.mentions.users.first()
 
         if (
-            taggedMember.roles.cache.some((role) => role.name === 'landLubber')
+            taggedMember.roles.cache.some((role) => role.name === 'Landlubber')
         ) {
             return message.reply('tagged user is already in the brig')
         }
@@ -54,7 +54,7 @@ module.exports = {
 
             // message the channel what is going on
             message.channel.send(
-                `${message.member}\nhas proposed that\n${taggedUser}\nbe thrown in the brig for their misconduct.\nAll in favor, say !aye to vote.`
+                `${message.member}\nhas proposed that\n${taggedUser}\nbe thrown in the brig for their misconduct.\nAll in favor, say \`!aye ${taggedUser}\` to vote.`
             )
         } catch (err) {
             console.error(err)
