@@ -1,6 +1,7 @@
 language: node_js
 node_js:
     - lts/*
+script: 'true'
 deploy:
     provider: elasticbeanstalk
     edge: true # opt in to dpl v2
