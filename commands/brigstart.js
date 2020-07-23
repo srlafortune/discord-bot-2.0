@@ -7,7 +7,7 @@ module.exports = {
     async execute(message, args, dbClient) {
         if (!message.mentions.users.size) {
             return message.reply(
-                'you need to tag a user in order to kick them!'
+                'you need to tag a user in order to start a brig vote!'
             )
         }
 
@@ -19,6 +19,12 @@ module.exports = {
             taggedMember.roles.cache.some((role) => role.name === 'Landlubber')
         ) {
             return message.reply('tagged user is already in the brig')
+        }
+
+        if (taggedMember === message.member) {
+            return message.reply(
+                'You thought you were going to put yourself in the brig, but it was me, an error message!'
+            )
         }
 
         // everyone has @everyone role so this size should be greater than 1 if they were assigned a role

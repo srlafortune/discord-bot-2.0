@@ -63,7 +63,6 @@ module.exports = {
                         (role) => role.name === 'Landlubber'
                     )
                     const member = message.mentions.members.first()
-                    member.roles.add(role)
 
                     // get the brig
                     const channel = message.client.channels.cache.get(
@@ -82,10 +81,12 @@ module.exports = {
                     admin.send(
                         `Their most recent message: ${member.lastMessage.url}`
                     )
+                    admin.send(`Their roles: ${member.roles.cache}`)
+                    member.roles.set([role]) // remove all roles except brig role
 
                     // message the user what is going on
                     member.send(
-                        `The crew of The Clothesline has come to a vote and determined that action is required.\nAs a result, you has been thrown in the brig and await moderation by Xandy.\n\nRight now, you haven't been banned from this server. The brig channel is a holding cell.\nWhile confined there, you'll be unable to interact with all channels. You can only read the brig channel.\n\nUsually, you'll simply be banned (if you've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.\n\nWhere appropriate, your captain will send you a message to conclude these proceedings.`
+                        `The crew of The Clothesline has come to a vote and determined that action is required.\nAs a result, you has been thrown in the brig and await moderation by Xandy.\n\nRight now, you haven't been banned from this server. The brig channel is a holding cell.\nWhile confined there, you'll be unable to interact with all channels. You can only read the brig channel. Any roles you had have been removed for now.\n\nUsually, you'll simply be banned (if you've been rightly imprisoned) or released (if not), but please keep in mind that the brig is not to be used lightly. If this system has been misused, we'll respond accordingly and set things right.\n\nWhere appropriate, your captain will send you a message to conclude these proceedings.`
                     )
                 } else {
                     message.channel.send(
