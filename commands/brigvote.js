@@ -94,9 +94,7 @@ module.exports = {
                     )
                 }
             } else {
-                message.channel.send(`
-                    ${Object.keys(result.Attributes.brigVotes).length}/5 votes
-                `)
+                message.reply('Vote received')
             }
 
             console.log(result)
