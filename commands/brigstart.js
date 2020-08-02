@@ -69,6 +69,9 @@ module.exports = {
             )
         } catch (err) {
             console.error(err)
+            if (err.code === 'ConditionalCheckFailedException') {
+                message.reply(`Brig vote already in progress for ${taggedUser}`)
+            }
         }
     },
 }

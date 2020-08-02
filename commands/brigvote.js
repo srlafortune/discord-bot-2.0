@@ -24,6 +24,7 @@ module.exports = {
         // everyone has @everyone role so this size should be greater than 1 if they were assigned a role
         const hasRole = message.member.roles.cache.size > 1
 
+        const currentTime = moment().toISOString()
         // can vote if a vote has started
         // and user hasn't voted yet
         // and vote period hasn't passed yet
@@ -31,9 +32,10 @@ module.exports = {
             TableName: 'Users',
             Key: { id: taggedUser.id },
             ReturnValues: 'ALL_NEW',
-            UpdateExpression: 'SET #brigVotes.#author = :voteRecord',
+            UpdateExpression:
+                'SET #brigVotes.#author = if_not_exists(#brigVotes.#author, :voteRecord)',
             ConditionExpression:
-                'attribute_exists(#brigVotes) AND attribute_not_exists(#brigVotes.#author) AND :currentTime < #voteEnd',
+                'attribute_exists(#brigVotes) AND :currentTime < #voteEnd',
             ExpressionAttributeNames: {
                 '#brigVotes': 'brigVotes',
                 '#voteEnd': 'voteEnd',
@@ -41,7 +43,7 @@ module.exports = {
             },
             ExpressionAttributeValues: {
                 ':voteRecord': { hasRole, time: moment().toISOString() },
-                ':currentTime': moment().toISOString(),
+                ':currentTime': currentTime,
             },
         }
 
@@ -93,17 +95,20 @@ module.exports = {
                         `5/5 votes.\nThe crew needs the authorization of another member with a role on this server to brig ${taggedUser} for their misconduct. A qualified crew member can vote !aye to finalize this motion.`
                     )
                 }
+            } else if (
+                moment(
+                    result.Attributes.brigVotes[message.author.id].time
+                ).isBefore(currentTime)
+            ) {
+                message.reply('You already voted!')
             } else {
                 message.reply('Vote received')
             }
-
-            console.log(result)
         } catch (err) {
             console.error(err)
-            message.channel.send('Error updating')
             if (err.code === 'ConditionalCheckFailedException') {
-                message.channel.send(
-                    'Brig vote either doesnt exist or expired or you already voted'
+                message.reply(
+                    `Brig vote not found or expired. Start a new vote with !brig ${taggedUser}`
                 )
             }
         }

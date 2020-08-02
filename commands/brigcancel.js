@@ -7,7 +7,7 @@ module.exports = {
     async execute(message, args, dbClient) {
         if (!message.mentions.users.size) {
             return message.reply(
-                'you need to tag a user in order to start a brig vote!'
+                'you need to tag a user in order to cancel a brig vote!'
             )
         }
 
@@ -17,7 +17,7 @@ module.exports = {
 
         if (taggedMember === message.member) {
             return message.reply(
-                'You thought you were going to put yourself in the brig, but it was me, an error message!'
+                'You thought you were going to cancel the brig vote, but it was me, an error message!'
             )
         }
 
@@ -26,7 +26,8 @@ module.exports = {
             Key: { id: taggedUser.id },
             ConditionExpression: '#voteInitiator = :voteInitiator',
             ReturnValues: 'ALL_NEW',
-            UpdateExpression: 'REMOVE #brigVotes, #voteStart, #voteEnd',
+            UpdateExpression:
+                'REMOVE #brigVotes, #voteStart, #voteEnd, #voteInitiator',
             ExpressionAttributeNames: {
                 '#brigVotes': 'brigVotes',
                 '#voteStart': 'voteStart',
@@ -45,6 +46,11 @@ module.exports = {
             )
         } catch (err) {
             console.error(err)
+            if (err.code === 'ConditionalCheckFailedException') {
+                message.reply(
+                    `You don't have permission to cancel this brig vote`
+                )
+            }
         }
     },
 }
